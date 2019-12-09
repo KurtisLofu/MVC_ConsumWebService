@@ -161,7 +161,16 @@ namespace Controller
             {
                 listaContactes.Clear();
                 listaContactes.Add(model.GetContacteById(Convert.ToInt32(view.tbBuscarId.Text)));
-                view.dgvContactes.DataSource = listaContactes.OrderBy(x => x.cognoms).ThenBy(x => x.nom).ToList();
+
+                try
+                {
+                    view.dgvContactes.DataSource = listaContactes.OrderBy(x => x.cognoms).ThenBy(x => x.nom).ToList();
+                }
+                catch (Exception ex)
+                {
+                    view.dgvContactes.DataSource = new List<contacte>();
+                    MessageBox.Show("No existeix un contacte amb aquest id");
+                }
             }
             else
             {
@@ -172,7 +181,7 @@ namespace Controller
 
         private void ButtonEsborrarTelefons_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(view.dgvContactes.SelectedRows[0].Cells["telId"].Value);
+            int id = Convert.ToInt32(view.dgvTelefons.SelectedRows[0].Cells["telId"].Value);
             model.DeleteTelefon(id);
             InicialitzarDatagrids();
         }
@@ -186,7 +195,7 @@ namespace Controller
 
         private void ButtonEsborrarEmails_Click(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32(view.dgvContactes.SelectedRows[0].Cells["emailId"].Value);
+            int id = Convert.ToInt32(view.dgvEmails.SelectedRows[0].Cells["emailId"].Value);
             model.DeleteEmail(id);
             InicialitzarDatagrids();
         }
@@ -268,7 +277,14 @@ namespace Controller
                 view.tbNom.Text = view.dgvContactes.SelectedRows[0].Cells["nom"].Value.ToString();
                 view.tbCognoms.Text = view.dgvContactes.SelectedRows[0].Cells["cognoms"].Value.ToString();
 
-                view.dgvTelefons.DataSource = contactesComplerts.Where(x => x.contacteId == id).FirstOrDefault().telefons.ToList();
+                try
+                {
+                    view.dgvTelefons.DataSource = contactesComplerts.Where(x => x.contacteId == id).FirstOrDefault().telefons.ToList();
+                }
+                catch (Exception ex)
+                {
+                    view.dgvTelefons.DataSource = new List<telefon>();
+                }
                 if (view.dgvTelefons.SelectedRows.Count > 0)
                 {
                     view.tbTelefon.Text = view.dgvTelefons.SelectedRows[0].Cells["telefon1"].Value.ToString();
@@ -280,7 +296,14 @@ namespace Controller
                     view.tbTipus.Text = "";
                 }
 
-                view.dgvEmails.DataSource = contactesComplerts.Where(x => x.contacteId == id).FirstOrDefault().emails.ToList();
+                try
+                {
+                    view.dgvEmails.DataSource = contactesComplerts.Where(x => x.contacteId == id).FirstOrDefault().emails.ToList();
+                }
+                catch (Exception ex)
+                {
+                    view.dgvEmails.DataSource = new List<email>();
+                }
                 if (view.dgvEmails.SelectedRows.Count > 0)
                 {
                     view.tbEmail.Text = view.dgvEmails.SelectedRows[0].Cells["email1"].Value.ToString();
