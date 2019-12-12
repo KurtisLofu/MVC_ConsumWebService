@@ -13,7 +13,7 @@ namespace Model
     {
         private static string url = "https://localhost:44391/api/";
 
-        /* Contactes */
+        #region CONTACTES
         public List<contacte> GetContactes()
         {
             List<contacte> c = (List<contacte>)MakeRequest(url + "contactesTot/", null, "GET", "application/json", typeof(List<contacte>));
@@ -37,9 +37,9 @@ namespace Model
             return c;
         }
 
-        public contacte UpdateContacte(contacte cUpdate, int id)
+        public contacte UpdateContacte(contacte cUpdate)
         {
-            contacte c = (contacte)MakeRequest(url + "contacte/" + id + "/", cUpdate, "PUT", "application/json", typeof(contacte));
+            contacte c = (contacte)MakeRequest(url + "contacte/" + cUpdate.contacteId + "/", cUpdate, "PUT", "application/json", typeof(contacte));
             return c;
         }
 
@@ -47,8 +47,9 @@ namespace Model
         {
             MakeRequest(url + "contacteTot/" + id + "/", null, "DELETE", null, typeof(void));
         }
+        #endregion
 
-        /* Telèfons */
+        #region TELEFONS    
 
         public List<contacte> GetContactesByTelefon(string num)
         {
@@ -56,9 +57,9 @@ namespace Model
             return lista;
         }
 
-        public telefon UpdateTelefon(telefon tUpdate, int id)
+        public telefon UpdateTelefon(telefon tUpdate)
         {
-            telefon t = (telefon)MakeRequest(url + "telefon/" + id + "/", tUpdate, "PUT", "application/json", typeof(telefon));
+            telefon t = (telefon)MakeRequest(url + "telefon/" + tUpdate.telId + "/", tUpdate, "PUT", "application/json", typeof(telefon));
             return t;
         }
 
@@ -72,8 +73,10 @@ namespace Model
         {
             MakeRequest(url + "telefon/" + id + "/", null, "DELETE", null, typeof(void));
         }
+        #endregion
 
-        /* Emails */
+
+        #region EMAILS
 
         public List<contacte> GetContactesByEmail(string email)
         {
@@ -81,9 +84,9 @@ namespace Model
             return lista;
         }
 
-        public email UpdateEmail(email mUpdate, int id)
+        public email UpdateEmail(email mUpdate)
         {
-            email t = (email)MakeRequest(url + "email/" + id + "/", mUpdate, "PUT", "application/json", typeof(email));
+            email t = (email)MakeRequest(url + "email/" + mUpdate.emailId + "/", mUpdate, "PUT", "application/json", typeof(email));
             return t;
         }
 
@@ -97,7 +100,7 @@ namespace Model
         {
             MakeRequest(url + "email/" + id + "/", null, "DELETE", null, typeof(void));
         }
-
+        #endregion
 
         public object MakeRequest(string requestUrl, object JSONRequest, string JSONmethod, string JSONContentType, Type JSONResponseType)
     //  requestUrl: Url completa del Web Service, amb l'opció sol·licitada

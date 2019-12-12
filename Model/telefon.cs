@@ -17,11 +17,5 @@ namespace Model
 
         public virtual contacte contacte { get; set; }
 
-        public telefon(string telefon1, string tipus, int contacteId)
-        {
-            this.telefon1 = telefon1;
-            this.tipus = tipus;
-            this.contacteId = contacteId;
-        }
     }
 }

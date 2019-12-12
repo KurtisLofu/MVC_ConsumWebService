@@ -15,11 +15,5 @@ namespace Model
 
         public virtual contacte contacte { get; set; }
 
-        public email (string email1, string tipus, int contacteId)
-        {
-            this.email1 = email1;
-            this.tipus = tipus;
-            this.contacteId = contacteId;
-        }
     }
 }
