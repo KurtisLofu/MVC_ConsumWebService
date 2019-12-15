@@ -72,7 +72,9 @@
             // 
             // dgvContactes
             // 
-            this.dgvContactes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvContactes.AllowUserToAddRows = false;
+            this.dgvContactes.AllowUserToDeleteRows = false;
+            this.dgvContactes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvContactes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvContactes.Location = new System.Drawing.Point(8, 75);
             this.dgvContactes.MultiSelect = false;
@@ -84,7 +86,7 @@
             // 
             // dgvTelefons
             // 
-            this.dgvTelefons.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvTelefons.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvTelefons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTelefons.Location = new System.Drawing.Point(353, 75);
             this.dgvTelefons.MultiSelect = false;
@@ -96,7 +98,7 @@
             // 
             // dgvEmails
             // 
-            this.dgvEmails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvEmails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvEmails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEmails.Location = new System.Drawing.Point(709, 75);
             this.dgvEmails.MultiSelect = false;

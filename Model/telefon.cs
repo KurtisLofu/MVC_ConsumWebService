@@ -12,10 +12,10 @@ namespace Model
         public string telefon1 { get; set; }
         public string tipus { get; set; }
 
-        public bool serializeContacte = true;
-        public Nullable<int> contacteId { get; set; }
+        public int contacteId { get; set; }
 
-        public virtual contacte contacte { get; set; }
-
+        public telefon()
+        {
+        }
     }
 }

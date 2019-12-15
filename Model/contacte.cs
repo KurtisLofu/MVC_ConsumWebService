@@ -12,15 +12,15 @@ namespace Model
         public string nom { get; set; }
         public string cognoms { get; set; }
 
-        public bool serializarEmail = false;
-        public bool serializarTelefon = false;
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<email> emails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<telefon> telefons { get; set; }
 
+        public contacte()
+        {
+
+        }
     }
 }

@@ -11,9 +11,11 @@ namespace Model
         public int emailId { get; set; }
         public string email1 { get; set; }
         public string tipus { get; set; }
-        public Nullable<int> contacteId { get; set; }
+        public int contacteId { get; set; }
 
-        public virtual contacte contacte { get; set; }
+        public email()
+        {
+        }
 
     }
 }
