@@ -74,7 +74,8 @@
             // 
             this.dgvContactes.AllowUserToAddRows = false;
             this.dgvContactes.AllowUserToDeleteRows = false;
-            this.dgvContactes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvContactes.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvContactes.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders;
             this.dgvContactes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvContactes.Location = new System.Drawing.Point(8, 75);
             this.dgvContactes.MultiSelect = false;
@@ -86,7 +87,8 @@
             // 
             // dgvTelefons
             // 
-            this.dgvTelefons.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvTelefons.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvTelefons.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders;
             this.dgvTelefons.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTelefons.Location = new System.Drawing.Point(353, 75);
             this.dgvTelefons.MultiSelect = false;
@@ -98,7 +100,8 @@
             // 
             // dgvEmails
             // 
-            this.dgvEmails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvEmails.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            this.dgvEmails.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedHeaders;
             this.dgvEmails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEmails.Location = new System.Drawing.Point(709, 75);
             this.dgvEmails.MultiSelect = false;
@@ -378,7 +381,7 @@
             // 
             // btBuscarEmail
             // 
-            this.btBuscarEmail.Location = new System.Drawing.Point(879, 47);
+            this.btBuscarEmail.Location = new System.Drawing.Point(958, 22);
             this.btBuscarEmail.Name = "btBuscarEmail";
             this.btBuscarEmail.Size = new System.Drawing.Size(75, 23);
             this.btBuscarEmail.TabIndex = 39;
@@ -387,7 +390,7 @@
             // 
             // btBuscarTelefon
             // 
-            this.btBuscarTelefon.Location = new System.Drawing.Point(523, 46);
+            this.btBuscarTelefon.Location = new System.Drawing.Point(604, 25);
             this.btBuscarTelefon.Name = "btBuscarTelefon";
             this.btBuscarTelefon.Size = new System.Drawing.Size(75, 23);
             this.btBuscarTelefon.TabIndex = 40;

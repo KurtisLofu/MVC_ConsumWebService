@@ -15,7 +15,6 @@ namespace Controller
         Form1 view;
         Model1 model;
         List<contacte> listaContactes;
-        List<contacte> contactesComplerts;
 
         public Controller()
         {
@@ -58,8 +57,14 @@ namespace Controller
         {
             if (view.dgvTelefons.SelectedRows.Count > 0)
             {
-                view.tbTelefon.Text = view.dgvTelefons.SelectedRows[0].Cells["telefon1"].Value.ToString();
-                view.tbTipus.Text = view.dgvTelefons.SelectedRows[0].Cells["tipus"].Value.ToString();
+                try
+                {
+                    telefon t = (telefon)view.dgvTelefons.CurrentRow.DataBoundItem;
+
+                    view.tbTelefon.Text = t.telefon1;
+                    view.tbTipus.Text = t.tipus;
+                }
+                catch (Exception ex){}
             }
             else
             {
@@ -74,13 +79,12 @@ namespace Controller
             {
                 try
                 {
-                    view.tbEmail.Text = view.dgvEmails.SelectedRows[0].Cells["email1"].Value.ToString();
-                    view.tbTipusE.Text = view.dgvEmails.SelectedRows[0].Cells["tipus"].Value.ToString();
-                } catch(Exception ex)
-                {
-                    view.tbEmail.Text = "";
-                    view.tbTipusE.Text = "";
-                }
+                    email em = (email)view.dgvEmails.CurrentRow.DataBoundItem;
+
+                    view.tbEmail.Text = em.email1;
+                    view.tbTipusE.Text = em.tipus;
+                } 
+                catch(Exception ex){}
             }
             else
             {
@@ -91,36 +95,54 @@ namespace Controller
 
         private void BtAfegirContacteComplertForm2_Click(object sender, EventArgs e)
         {
-            contacte c = new contacte();
-            c.nom = view2.tbNom2.Text;
-            c.cognoms = view2.tbCognoms2.Text;
-            c.telefons = new List<telefon>();
-            c.emails = new List<email>();
+            if (!string.IsNullOrEmpty(view2.tbNom2.Text))
+            {
+                contacte c = new contacte();
+                c.nom = view2.tbNom2.Text;
+                c.cognoms = view2.tbCognoms2.Text;
+                c.telefons = new List<telefon>();
+                c.emails = new List<email>();
+                c = model.InsertContacte(c);
+                InicialitzarDatagrids();
 
-            c = model.InsertContacte(c);
+                if (!string.IsNullOrEmpty(view2.tbTelefon2.Text))
+                {
+                    telefon t = new telefon();
+                    t.telefon1 = view2.tbTelefon2.Text;
+                    t.tipus = view2.tbTipus2.Text;
+                    t.contacteId = c.contacteId;
+                    model.InsertTelefon(t);
+                }
+
+                if (!string.IsNullOrEmpty(view2.tbEmail2.Text))
+                {
+                    email em = new email();
+                    em.email1 = view2.tbEmail2.Text;
+                    em.tipus = view2.tbTipusE2.Text;
+                    em.contacteId = c.contacteId;
+                    model.InsertEmail(em);
+                }
+            }
+
+            CleanTextBoxesModal();
+            view2.Close();
             InicialitzarDatagrids();
+        }
 
-            telefon t = new telefon();
-            t.telefon1 = view2.tbTelefon2.Text;
-            t.tipus = view2.tbTipus2.Text;
-            t.contacteId = c.contacteId;
-
-            email em = new email();
-            em.email1 = view2.tbEmail2.Text;
-            em.tipus = view2.tbTipusE2.Text;
-            em.contacteId = c.contacteId;
-
-            model.InsertTelefon(t);
-            model.InsertEmail(em);
-
-            view2.Visible = false;
-            InicialitzarDatagrids();
+        private void CleanTextBoxesModal()
+        {
+            view2.tbNom2.Text = "";
+            view2.tbCognoms2.Text = "";
+            view2.tbTelefon2.Text = "";
+            view2.tbTipus2.Text = "";
+            view2.tbEmail2.Text = "";
+            view2.tbTipusE2.Text = "";
         }
 
         private void BtAfegirContacteComplert_Click(object sender, EventArgs e)
         {
-            view2.Visible = true;
-            //view2.ShowDialog();
+            //view2.Visible = true;
+            view2.ShowDialog();
         }
 
         private void BtBuscarEmail_Click(object sender, EventArgs e)
@@ -136,7 +158,7 @@ namespace Controller
             {
                 listaContactes = new List<contacte>();
 
-                view.dgvContactes.DataSource = contactesComplerts.OrderBy(x => x.cognoms).ThenBy(x => x.nom).ToList();
+                view.dgvContactes.DataSource = model.GetContactes();
             }
         }
 
@@ -158,7 +180,7 @@ namespace Controller
             else
             {
                 listaContactes = new List<contacte>();
-                view.dgvContactes.DataSource = contactesComplerts.OrderBy(x => x.cognoms).ThenBy(x => x.nom).ToList();
+                view.dgvContactes.DataSource = model.GetContactes();
             }
         }
 
@@ -180,7 +202,7 @@ namespace Controller
             else
             {
                 listaContactes = new List<contacte>();
-                view.dgvContactes.DataSource = contactesComplerts.OrderBy(x => x.cognoms).ThenBy(x => x.nom).ToList();
+                view.dgvContactes.DataSource = model.GetContactes();
             }
         }
 
@@ -205,7 +227,7 @@ namespace Controller
             else
             {
                 listaContactes = new List<contacte>();
-                view.dgvContactes.DataSource = contactesComplerts.OrderBy(x => x.cognoms).ThenBy(x => x.nom).ToList();
+                view.dgvContactes.DataSource = model.GetContactes();
             }
         }
 
