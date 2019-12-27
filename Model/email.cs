@@ -13,6 +13,7 @@ namespace Model
         public string tipus { get; set; }
         public int contacteId { get; set; }
 
+        public contacte contacte { get; set; }
         public email()
         {
         }

@@ -65,9 +65,12 @@
             this.btBuscarId = new System.Windows.Forms.Button();
             this.btBuscarEmail = new System.Windows.Forms.Button();
             this.btBuscarTelefon = new System.Windows.Forms.Button();
+            this.dgvUsuarisConnectats = new System.Windows.Forms.DataGridView();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContactes)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTelefons)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmails)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarisConnectats)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvContactes
@@ -397,11 +400,36 @@
             this.btBuscarTelefon.Text = "Buscar";
             this.btBuscarTelefon.UseVisualStyleBackColor = true;
             // 
+            // dgvUsuarisConnectats
+            // 
+            this.dgvUsuarisConnectats.AllowUserToAddRows = false;
+            this.dgvUsuarisConnectats.AllowUserToDeleteRows = false;
+            this.dgvUsuarisConnectats.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvUsuarisConnectats.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvUsuarisConnectats.Location = new System.Drawing.Point(1058, 75);
+            this.dgvUsuarisConnectats.MultiSelect = false;
+            this.dgvUsuarisConnectats.Name = "dgvUsuarisConnectats";
+            this.dgvUsuarisConnectats.ReadOnly = true;
+            this.dgvUsuarisConnectats.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvUsuarisConnectats.Size = new System.Drawing.Size(240, 409);
+            this.dgvUsuarisConnectats.TabIndex = 41;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1055, 56);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(98, 13);
+            this.label7.TabIndex = 42;
+            this.label7.Text = "Usuaris connectats";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1054, 496);
+            this.ClientSize = new System.Drawing.Size(1310, 496);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.dgvUsuarisConnectats);
             this.Controls.Add(this.btBuscarTelefon);
             this.Controls.Add(this.btBuscarEmail);
             this.Controls.Add(this.btBuscarId);
@@ -444,6 +472,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvContactes)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTelefons)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmails)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvUsuarisConnectats)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -488,6 +517,8 @@
         public System.Windows.Forms.Button btBuscarId;
         public System.Windows.Forms.Button btBuscarEmail;
         public System.Windows.Forms.Button btBuscarTelefon;
+        private System.Windows.Forms.Label label7;
+        public System.Windows.Forms.DataGridView dgvUsuarisConnectats;
     }
 }
 

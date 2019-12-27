@@ -14,6 +14,7 @@ namespace Model
 
         public int contacteId { get; set; }
 
+        public contacte contacte { get; set; }
         public telefon()
         {
         }

@@ -1,8 +1,11 @@
 ﻿using Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.WebSockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using View;
@@ -11,6 +14,9 @@ namespace Controller
 {
     public class Controller
     {
+        CancellationTokenSource cts = new CancellationTokenSource();
+        ClientWebSocket socket = new ClientWebSocket();
+
         Form2 view2;
         Form1 view;
         Model1 model;
@@ -21,9 +27,53 @@ namespace Controller
             view2 = new Form2();
             view = new Form1();
             model = new Model1();
+            ConnectToWebSocket();
             InicialitzarDatagrids();
             InicialitzarListeners();
             Application.Run(view);
+        }
+
+        private async void ConnectToWebSocket()
+        {
+            string wsUri = string.Format("wss://localhost:44387/api/websocket?nom={0}", "usuari_" + DateTime.Now.Second + DateTime.Now.Minute + DateTime.Now.Hour);
+            await socket.ConnectAsync(new Uri(wsUri), cts.Token);
+
+            TaskFactoryStartNew(cts, socket);
+        }
+
+        private void TaskFactoryStartNew(CancellationTokenSource cts, ClientWebSocket socket)
+        {
+
+            Task.Factory.StartNew(
+                            async () =>
+                            {
+                                var rcvBytes = new byte[128];
+                                var rcvBuffer = new ArraySegment<byte>(rcvBytes);
+                                while (true)
+                                {
+                                    WebSocketReceiveResult rcvResult = await socket.ReceiveAsync(rcvBuffer, cts.Token);
+                                    byte[] msgBytes = rcvBuffer.Skip(rcvBuffer.Offset).Take(rcvResult.Count).ToArray();
+                                    string rcvMsg = Encoding.UTF8.GetString(msgBytes);
+
+                                    if (rcvMsg.Equals("Actualitzar"))
+                                        InicialitzarDatagrids();
+                                    else if (rcvMsg.StartsWith(";"))
+                                        ObtenerListaUsuaris(rcvMsg);
+                                }
+                            }, cts.Token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        }
+
+        private void ObtenerListaUsuaris(string listaUsuaris)
+        {
+            listaUsuaris = listaUsuaris.TrimStart(';');
+            view.dgvUsuarisConnectats.DataSource = new ObservableCollection<string>(listaUsuaris.Split(';'));
+        }
+
+        private async void EnviarMissatgeWebSocketAsync(string missatge)
+        {
+            byte[] sendBytes = Encoding.UTF8.GetBytes(missatge);
+            var sendBuffer = new ArraySegment<byte>(sendBytes);
+            await socket.SendAsync(sendBuffer, WebSocketMessageType.Text, endOfMessage: true, cancellationToken: cts.Token);
         }
 
         public void InicialitzarListeners()
@@ -111,6 +161,7 @@ namespace Controller
                     t.telefon1 = view2.tbTelefon2.Text;
                     t.tipus = view2.tbTipus2.Text;
                     t.contacteId = c.contacteId;
+                    //t.contacte = c;
                     model.InsertTelefon(t);
                 }
 
@@ -120,6 +171,7 @@ namespace Controller
                     em.email1 = view2.tbEmail2.Text;
                     em.tipus = view2.tbTipusE2.Text;
                     em.contacteId = c.contacteId;
+                    //em.contacte = c;
                     model.InsertEmail(em);
                 }
             }
@@ -301,9 +353,11 @@ namespace Controller
             em.email1 = view.tbEmail.Text;
             em.tipus = view.tbTipusE.Text;
             em.contacteId = idContacte;
+            //em.contacte = model.GetContacteById(idContacte);
             model.InsertEmail(em);
 
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("Actualitzar");
         }
 
         private void ButtonAfegirTelefons_Click(object sender, EventArgs e)
@@ -314,9 +368,11 @@ namespace Controller
             te.telefon1 = view.tbTelefon.Text;
             te.tipus = view.tbTipus.Text;
             te.contacteId = idContacte;
+            //te.contacte = model.GetContacteById(idContacte);
             model.InsertTelefon(te);
 
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("Actualitzar");
         }
 
         private void ButtonAfegirContactes_Click(object sender, EventArgs e)
@@ -329,10 +385,12 @@ namespace Controller
             model.InsertContacte(c);
 
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("Actualitzar");
         }
 
         public void InicialitzarDatagrids()
         {
+            
             List<contacte> contactes = model.GetContactes();
             contacte c = contactes.FirstOrDefault();
             List<telefon> telefons = contactes.Where(x => x.contacteId == c.contacteId).SingleOrDefault().telefons.ToList();
@@ -343,8 +401,10 @@ namespace Controller
             view.dgvContactes.Columns["emails"].Visible = false;
 
             view.dgvTelefons.DataSource = telefons;
+            view.dgvTelefons.Columns["contacte"].Visible = false;
 
             view.dgvEmails.DataSource = emails;
+            view.dgvEmails.Columns["contacte"].Visible = false;
 
         }
 
