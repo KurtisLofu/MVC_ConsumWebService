@@ -35,7 +35,7 @@ namespace Controller
 
         private async void ConnectToWebSocket()
         {
-            string wsUri = string.Format("wss://localhost:44387/api/websocket?nom={0}", "usuari_" + DateTime.Now.Second + DateTime.Now.Minute + DateTime.Now.Hour);
+            string wsUri = string.Format("wss://localhost:44387/api/websocket?nom={0}", "usuari_" + DateTime.Now.Second + DateTime.Now.Minute + DateTime.Now.Hour + DateTime.Now.Day + DateTime.Now.Month);
             await socket.ConnectAsync(new Uri(wsUri), cts.Token);
 
             TaskFactoryStartNew(cts, socket);
@@ -66,7 +66,12 @@ namespace Controller
         private void ObtenerListaUsuaris(string listaUsuaris)
         {
             listaUsuaris = listaUsuaris.TrimStart(';');
-            view.dgvUsuarisConnectats.DataSource = new ObservableCollection<string>(listaUsuaris.Split(';'));
+            ObservableCollection<string> usuaris = new ObservableCollection<string>(listaUsuaris.Split(';'));
+            foreach (string usu in usuaris)
+            {
+                view.listViewUsuaris.Items.Add(usu);
+            }
+            view.listViewUsuaris.Columns[0].AutoResize(ColumnHeaderAutoResizeStyle.ColumnContent);
         }
 
         private async void EnviarMissatgeWebSocketAsync(string missatge)
@@ -179,6 +184,7 @@ namespace Controller
             CleanTextBoxesModal();
             view2.Close();
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("Actualitzar");
         }
 
         private void CleanTextBoxesModal()
@@ -288,6 +294,7 @@ namespace Controller
             int id = Convert.ToInt32(view.dgvTelefons.SelectedRows[0].Cells[0].Value);
             model.DeleteTelefon(id);
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
         }
 
         private void ButtonEsborrarContactes_Click(object sender, EventArgs e)
@@ -295,6 +302,7 @@ namespace Controller
             int id = Convert.ToInt32(view.dgvContactes.SelectedRows[0].Cells[0].Value);
             model.DeleteContacte(id);
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
         }
 
         private void ButtonEsborrarEmails_Click(object sender, EventArgs e)
@@ -302,6 +310,7 @@ namespace Controller
             int id = Convert.ToInt32(view.dgvEmails.SelectedRows[0].Cells[0].Value);
             model.DeleteEmail(id);
             InicialitzarDatagrids();
+            EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
         }
 
         private void ButtonModificarEmails_Click(object sender, EventArgs e)
@@ -315,6 +324,7 @@ namespace Controller
                 em.tipus = view.tbTipusE.Text;
                 model.UpdateEmail(em);
                 InicialitzarDatagrids();
+                EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
             }
         }
 
@@ -329,6 +339,7 @@ namespace Controller
                 t.tipus = view.tbTipus.Text;
                 model.UpdateTelefon(t);
                 InicialitzarDatagrids();
+                EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
             }
         }
 
@@ -342,6 +353,7 @@ namespace Controller
                 c.cognoms = view.tbCognoms.Text;
                 model.UpdateContacte(c);
                 InicialitzarDatagrids();
+                EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
             }
         }
 
@@ -357,7 +369,7 @@ namespace Controller
             model.InsertEmail(em);
 
             InicialitzarDatagrids();
-            EnviarMissatgeWebSocketAsync("Actualitzar");
+            EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
         }
 
         private void ButtonAfegirTelefons_Click(object sender, EventArgs e)
@@ -372,7 +384,7 @@ namespace Controller
             model.InsertTelefon(te);
 
             InicialitzarDatagrids();
-            EnviarMissatgeWebSocketAsync("Actualitzar");
+            EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
         }
 
         private void ButtonAfegirContactes_Click(object sender, EventArgs e)
@@ -385,7 +397,7 @@ namespace Controller
             model.InsertContacte(c);
 
             InicialitzarDatagrids();
-            EnviarMissatgeWebSocketAsync("Actualitzar");
+            EnviarMissatgeWebSocketAsync("ClientCommand_Actualitzar");
         }
 
         public void InicialitzarDatagrids()
